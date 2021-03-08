@@ -9,11 +9,11 @@ import Foundation
 import Combine
 
 extension Publisher where Output == URLSession.DataTaskPublisher.Output {
-    internal func require2xxResponse() -> AnyPublisher<URLSession.DataTaskPublisher.Output, Error> {
+    public func require2xxResponse() -> AnyPublisher<URLSession.DataTaskPublisher.Output, Error> {
         return self.require(httpStatusWithinRange: (200..<300))
     }
     
-    internal func require(httpStatusWithinRange range: Range<Int>) -> AnyPublisher<URLSession.DataTaskPublisher.Output, Error> {
+    public func require(httpStatusWithinRange range: Range<Int>) -> AnyPublisher<URLSession.DataTaskPublisher.Output, Error> {
         return self.tryMap { (data, response) -> URLSession.DataTaskPublisher.Output in
             guard let httpResponse = response as? HTTPURLResponse, range.contains(httpResponse.statusCode) else {
                 throw URLError(.badServerResponse)
