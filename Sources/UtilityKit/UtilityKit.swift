@@ -7,7 +7,6 @@
 
 import Foundation
 
-
 /// ApplicationIdentifier
 ///
 /// Returns the either a bundle identifier for an application or the UtilityKit identifier as a fallback
