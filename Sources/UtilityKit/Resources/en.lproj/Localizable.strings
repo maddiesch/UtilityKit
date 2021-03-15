@@ -1,0 +1,13 @@
+/*
+  Localizable.strings
+  UtilityKit
+
+  Created by Maddie Schipper on 3/14/21.
+  
+*/
+
+"UtilityKit.ItemProviderError.NilData" = "Failed to load data.";
+
+"UtilityKit.ItemProviderError.UnsupportedType %@" = "Unsupported File Type (%@).";
+
+"UtilityKit.ItemProviderError.URLConversionError" = "Data does not contain a valid URL.";

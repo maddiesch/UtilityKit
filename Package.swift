@@ -5,6 +5,7 @@ import PackageDescription
 
 let package = Package(
     name: "UtilityKit",
+    defaultLocalization: "en",
     platforms: [
         .macOS(.v11),
         .iOS(.v14)
