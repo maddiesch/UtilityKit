@@ -8,6 +8,7 @@
 import Foundation
 import Combine
 import UniformTypeIdentifiers
+import CoreServices
 
 public struct ItemProviderError : Error {
     public let message: String

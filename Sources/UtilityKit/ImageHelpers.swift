@@ -7,6 +7,8 @@
 
 import Foundation
 import CoreGraphics
+import CoreServices
+import ImageIO
 
 public struct ImageExporter {
     public enum Error : Swift.Error {
