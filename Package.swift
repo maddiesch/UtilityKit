@@ -11,13 +11,13 @@ let package = Package(
         .iOS(.v14)
     ],
     products: [
-        .library(
-            name: "UtilityKit",
-            targets: ["UtilityKit"]),
+        .library(name: "UtilityKit", targets: ["UtilityKit"]),
+        .library(name: "TestUtility", targets: ["TestUtility"])
     ],
     dependencies: [],
     targets: [
+        .target(name: "TestUtility", dependencies: []),
         .target(name: "UtilityKit", dependencies: []),
-        .testTarget(name: "UtilityKitTests", dependencies: ["UtilityKit"]),
+        .testTarget(name: "UtilityKitTests", dependencies: ["TestUtility", "UtilityKit"]),
     ]
 )

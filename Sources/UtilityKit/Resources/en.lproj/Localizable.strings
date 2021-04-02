@@ -11,3 +11,9 @@
 "UtilityKit.ItemProviderError.UnsupportedType %@" = "Unsupported File Type (%@).";
 
 "UtilityKit.ItemProviderError.URLConversionError" = "Data does not contain a valid URL.";
+
+"UtilityKit.KeychainError.Security %i" = "Keychain returned a low level security error (%i).";
+
+"UtilityKit.KeychainError.ItemNotFound" = "Item could not be found.";
+
+"UtilityKit.KeychainError.UnsupportedValueType" = "Item returned an unsupported value type.";
