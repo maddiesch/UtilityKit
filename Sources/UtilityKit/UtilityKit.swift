@@ -60,3 +60,9 @@ extension Data {
         return result
     }
 }
+
+import os.log
+
+public func CreateLogger(category: String) -> os.Logger {
+    return Logger(subsystem: ApplicationIdentifier, category: category)
+}

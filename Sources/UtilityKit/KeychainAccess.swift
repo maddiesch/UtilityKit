@@ -11,7 +11,10 @@ import os.log
 
 fileprivate let KeychainLog = Logger(subsystem: ApplicationIdentifier, category: "Keychain")
 
-public struct Keychain {
+@available(*, deprecated, renamed: "KeychainItem")
+public typealias Keychain = KeychainItem
+
+public struct KeychainItem {
     public enum Error : Swift.Error {
         case itemNotFound
         case unsupportedValueType
@@ -84,7 +87,17 @@ public struct Keychain {
     }
 }
 
-extension Keychain {
+extension KeychainItem {
+    public func exists(forKey key: String) -> Bool {
+        do {
+            _ = try self.get(valueForKey: key)
+            
+            return true
+        } catch {
+            return false
+        }
+    }
+    
     public func get(optionalValueForKey key: String) throws -> Data? {
         do {
             return try self.get(valueForKey: key)
@@ -109,7 +122,7 @@ extension Keychain {
         var output: AnyObject?
         let status = SecItemCopyMatching(query as CFDictionary, &output)
         
-        KeychainLog.trace("Get item for key - \(key)")
+        KeychainLog.trace("Get item for key - \(self.service).\(key)")
         
         switch status {
         case errSecSuccess:
@@ -132,7 +145,7 @@ extension Keychain {
         
         let status = SecItemCopyMatching(query as CFDictionary, nil)
         
-        KeychainLog.trace("Set item for key - \(key)")
+        KeychainLog.trace("Set item for key - \(self.service).\(key)")
         
         switch status {
         case errSecSuccess, errSecInteractionNotAllowed:
@@ -163,7 +176,7 @@ extension Keychain {
         
         query[kSecAttrAccount as String] = key
         
-        KeychainLog.trace("Delete item for key - \(key)")
+        KeychainLog.trace("Delete item for key - \(self.service).\(key)")
         
         let status = SecItemDelete(query as CFDictionary)
         
@@ -176,7 +189,7 @@ extension Keychain {
     }
 }
 
-extension Keychain {
+extension KeychainItem {
     public func set<V : Encodable>(_ value: V, forKey key: String, usingEncoder encoder: JSONEncoder = JSONEncoder()) throws {
         let data = try encoder.encode(value)
         
@@ -190,7 +203,7 @@ extension Keychain {
     }
 }
 
-extension Keychain.Error : CustomNSError {
+extension KeychainItem.Error : CustomNSError {
     public var errorCode: Int {
         switch self {
         case .itemNotFound:

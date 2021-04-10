@@ -30,7 +30,17 @@ public final class Cache<KeyType, ValueType> where KeyType : AnyObject, ValueTyp
 }
 
 extension Cache {
+    @inlinable
     public func fetch(objectForKey key: KeyType, default fallback: @autoclosure () -> ValueType?) -> ValueType? {
+        return self.fetch(objectForKey: key, default: fallback)
+    }
+    
+    @inlinable
+    public func fetch(objectForKey key: KeyType, default fallback: @autoclosure () -> ValueType) -> ValueType {
+        return self.fetch(objectForKey: key, default: fallback)
+    }
+    
+    public func fetch(objectForKey key: KeyType, default fallback: () -> ValueType?) -> ValueType? {
         if let object = self.object(forKey: key) {
             return object
         }
@@ -44,7 +54,7 @@ extension Cache {
         return newObject
     }
     
-    public func fetch(objectForKey key: KeyType, default fallback: @autoclosure () -> ValueType) -> ValueType {
+    public func fetch(objectForKey key: KeyType, default fallback: () -> ValueType) -> ValueType {
         if let object = self.object(forKey: key) {
             return object
         }
