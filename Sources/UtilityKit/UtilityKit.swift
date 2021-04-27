@@ -66,3 +66,7 @@ import os.log
 public func CreateLogger(category: String) -> os.Logger {
     return Logger(subsystem: ApplicationIdentifier, category: category)
 }
+
+import Combine
+
+public typealias AnyCancellable = Combine.AnyCancellable

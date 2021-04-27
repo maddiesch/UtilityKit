@@ -92,7 +92,7 @@ final class UtilityKitTests: XCTestCase {
     }
     
     func testKeychainAccessWriting() throws {
-        let keychain = Keychain()
+        let keychain = KeychainItem()
         
         try keychain.set(Data(), forKey: "testing")
         
@@ -100,5 +100,30 @@ final class UtilityKitTests: XCTestCase {
         
         try keychain.delete(valueForKey: "testing")
         try keychain.delete(valueForKey: "testing")
+    }
+    
+    func testWorkQueue() throws {
+        let queue = JobQueue(concurrentJobs: 2)
+        
+        queue.submit {
+            sleep(1)
+            print("Work Item (1): \(Date().timeIntervalSince1970)")
+        }
+        
+        queue.submit {
+            sleep(2)
+            print("Work Item (2): \(Date().timeIntervalSince1970)")
+        }
+        
+        queue.submit {
+            sleep(2)
+            print("Work Item (3): \(Date().timeIntervalSince1970)")
+        }
+        
+        queue.wait()
+        
+        try queue.submitAndWait(JobQueue.BlockItem {
+            print("Work Item (4): \(Date().timeIntervalSince1970)")
+        })
     }
 }
