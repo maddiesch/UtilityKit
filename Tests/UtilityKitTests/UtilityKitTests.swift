@@ -77,7 +77,7 @@ final class UtilityKitTests: XCTestCase {
         var results = Array<ResolvedAddress>()
         
         let canceler = ResolveAddresses(forHost: "maddiesch.com").sink { (completion) in
-            TestAssertFinished(completion)
+            AssertFinished(completion)
             
             expection.fulfill()
         } receiveValue: { (r) in

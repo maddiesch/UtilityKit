@@ -8,6 +8,7 @@
 import Combine
 
 extension Set where Element == AnyCancellable {
+    @inlinable
     public mutating func cancelAll() {
         for canceler in self {
             canceler.cancel()
