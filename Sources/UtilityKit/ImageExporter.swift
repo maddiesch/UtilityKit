@@ -1,5 +1,5 @@
 //
-//  ImageHelpers.swift
+//  ImageExporter.swift
 //  
 //
 //  Created by Maddie Schipper on 3/14/21.
@@ -9,6 +9,7 @@ import Foundation
 import CoreGraphics
 import CoreServices
 import ImageIO
+import UniformTypeIdentifiers
 
 public struct ImageExporter {
     public enum Error : Swift.Error {
@@ -19,11 +20,17 @@ public struct ImageExporter {
     
     public enum FileFormat {
         case png
+        case jpeg
+        case heic
         
-        fileprivate var universalTypeIdentifier: CFString {
+        fileprivate var universalTypeIdentifier: UTType {
             switch self {
             case .png:
-                return kUTTypePNG
+                return .png
+            case .jpeg:
+                return .jpeg
+            case .heic:
+                return .heic
             }
         }
     }
@@ -32,7 +39,7 @@ public struct ImageExporter {
         guard let data = CFDataCreateMutable(kCFAllocatorDefault, 0) else {
             throw Error.dataAllocatorFailed
         }
-        guard let destination = CGImageDestinationCreateWithData(data, format.universalTypeIdentifier, 1, nil) else {
+        guard let destination = CGImageDestinationCreateWithData(data, format.universalTypeIdentifier.identifier as CFString, 1, nil) else {
             throw Error.destinationAllocatorFailed
         }
         

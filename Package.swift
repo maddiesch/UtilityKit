@@ -18,6 +18,8 @@ let package = Package(
     targets: [
         .target(name: "TestUtility", dependencies: []),
         .target(name: "UtilityKit", dependencies: []),
-        .testTarget(name: "UtilityKitTests", dependencies: ["TestUtility", "UtilityKit"]),
+        .testTarget(name: "UtilityKitTests", dependencies: ["TestUtility", "UtilityKit"], resources: [
+            .copy("Resources/apple.heic")
+        ]),
     ]
 )
