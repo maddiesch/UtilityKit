@@ -8,6 +8,8 @@
 import XCTest
 @testable import UtilityKit
 
+#if os(macOS)
+
 final class ImageExporterTests : XCTestCase {
     var cgImage: CGImage {
         let image = NSImage(contentsOf: Bundle.module.url(forResource: "apple", withExtension: "heic")!)!
@@ -28,3 +30,5 @@ final class ImageExporterTests : XCTestCase {
         _ = try ImageExporter.export(image: cgImage, toFormat: .heic)
     }
 }
+
+#endif

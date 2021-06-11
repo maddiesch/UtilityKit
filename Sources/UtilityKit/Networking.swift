@@ -27,19 +27,34 @@ extension Publisher where Output == URLSession.DataTaskPublisher.Output {
     
     public func require(httpStatusWithinRange range: Range<Int>) -> AnyPublisher<URLSession.DataTaskPublisher.Output, Error> {
         return self.tryMap { (data, response) -> URLSession.DataTaskPublisher.Output in
-            guard let httpResponse = response as? HTTPURLResponse  else {
-                throw URLError(.badServerResponse)
-            }
-            guard range.contains(httpResponse.statusCode) else {
-                throw HTTPResponseError(
-                    statusCode: httpResponse.statusCode,
-                    responseBody: data,
-                    responseHeaders: httpResponse.allHeaderFields
-                )
-            }
+            try response.require(httpStatusCodeWithinRange: range)
             
             return URLSession.DataTaskPublisher.Output(data, response)
         }.eraseToAnyPublisher()
+    }
+}
+
+extension URLResponse {
+    @discardableResult
+    public func require2xxResponse() throws -> Int {
+        return try self.require(httpStatusCodeWithinRange: (200..<300))
+    }
+    
+    @discardableResult
+    public func require(httpStatusCodeWithinRange range: Range<Int>) throws -> Int {
+        guard let httpResponse = self as? HTTPURLResponse else {
+            throw URLError(.badServerResponse)
+        }
+        
+        guard range.contains(httpResponse.statusCode) else {
+            throw HTTPResponseError(
+                statusCode: httpResponse.statusCode,
+                responseBody: nil,
+                responseHeaders: httpResponse.allHeaderFields
+            )
+        }
+        
+        return httpResponse.statusCode
     }
 }
 
