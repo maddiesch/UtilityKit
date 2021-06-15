@@ -91,17 +91,6 @@ final class UtilityKitTests: XCTestCase {
         XCTAssertGreaterThan(results.count, 0)
     }
     
-    func testKeychainAccessWriting() throws {
-        let keychain = KeychainItem()
-        
-        try keychain.set(Data(), forKey: "testing")
-        
-        _ = try keychain.get(valueForKey: "testing")
-        
-        try keychain.delete(valueForKey: "testing")
-        try keychain.delete(valueForKey: "testing")
-    }
-    
     func testWorkQueue() throws {
         let queue = JobQueue(concurrentJobs: 2)
         
