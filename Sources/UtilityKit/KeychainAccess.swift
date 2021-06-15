@@ -11,9 +11,7 @@ import os.log
 
 fileprivate let KeychainLog = Logger(subsystem: ApplicationIdentifier, category: "Keychain")
 
-@available(*, deprecated, renamed: "KeychainItem")
-public typealias Keychain = KeychainItem
-
+@available(*, deprecated, message: "KeychainItem has been deprecated in favor of Keychain.Item.")
 public struct KeychainItem {
     public enum Error : Swift.Error {
         case itemNotFound
@@ -87,6 +85,7 @@ public struct KeychainItem {
     }
 }
 
+@available(*, deprecated)
 extension KeychainItem {
     public func exists(forKey key: String) -> Bool {
         do {
@@ -189,6 +188,7 @@ extension KeychainItem {
     }
 }
 
+@available(*, deprecated)
 extension KeychainItem {
     public func set<V : Encodable>(_ value: V, forKey key: String, usingEncoder encoder: JSONEncoder = JSONEncoder()) throws {
         let data = try encoder.encode(value)
@@ -203,6 +203,7 @@ extension KeychainItem {
     }
 }
 
+@available(*, deprecated)
 extension KeychainItem.Error : CustomNSError {
     public var errorCode: Int {
         switch self {
