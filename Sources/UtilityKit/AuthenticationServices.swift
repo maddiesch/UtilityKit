@@ -28,6 +28,28 @@ extension ASWebAuthenticationSession {
     }
 }
 
+extension ASWebAuthenticationSession {
+    @available(macOS 12.0.0, iOS 15.0.0, *)
+    public static func beginAuthentication(for url: URL, callbackURLScheme: String) async throws -> URL {
+        return try await withCheckedThrowingContinuation { continuation in
+            DispatchQueue.main.async {
+                let session = ASWebAuthenticationSession(url: url, callbackURLScheme: callbackURLScheme) { unsafeURL, unsafeError in
+                    if let error = unsafeError {
+                        continuation.resume(throwing: error)
+                    } else if let url = unsafeURL {
+                        continuation.resume(returning: url)
+                    } else {
+                        continuation.resume(throwing: URLError(.badURL))
+                    }
+                }
+                
+                session.presentationContextProvider = _AuthenticationSessionViewModel.default
+                session.start()
+            }
+        }
+    }
+}
+
 fileprivate class _AuthenticationSessionViewModel : NSObject, ASWebAuthenticationPresentationContextProviding {
     static let `default`: _AuthenticationSessionViewModel = .init()
     
