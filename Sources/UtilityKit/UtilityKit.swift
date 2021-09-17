@@ -25,6 +25,9 @@ public func ShortVersionString(for bundle: Bundle) -> String {
     if let bundleShortVersion = bundle.localizedInfoDictionary?["CFBundleShortVersionString"] as? String {
         return bundleShortVersion
     }
+    if let bundleShortVersion = bundle.infoDictionary?["CFBundleShortVersionString"] as? String {
+        return bundleShortVersion
+    }
     return "0.0"
 }
 
